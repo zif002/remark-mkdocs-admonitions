@@ -1,6 +1,7 @@
 import type { Plugin } from "unified";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
+import remarkHtml from "remark-html";
 
 /**
  * Remark plugin that finds MkDocs-style admonitions starting with
@@ -11,9 +12,9 @@ import remarkParse from "remark-parse";
  * where <type> is one of:
  * note, info, tip, success, question, failure, danger, bug, example, quote, warning
  *
- * and replaces them in the original markdown source with:
+ * and replaces them in the original markdown source with HTML:
  *
- * <div class="admonition admonition-<type>">{Content}</div>
+ * <div class="admonition admonition-<type>">…rendered HTML…</div>
  *
  * Then it reparses the modified markdown back into an mdast tree.
  */
@@ -58,13 +59,21 @@ export const remarkMkDocsAdmonitions: Plugin = () => {
       const typeLower = matchedType.toLowerCase();
 
       const innerIndented = match[2] ?? "";
-      const inner = innerIndented
+      const innerMarkdown = innerIndented
         .split("\n")
         .map((line) => line.replace(/^[ \t]{4}/, ""))
         .join("\n")
         .trimEnd();
 
-      const replacement = `<div class="admonition admonition-${typeLower}">${inner}</div>`;
+      // Render inner markdown to HTML so that code, links, etc. are preserved.
+      const innerHtml = unified()
+        .use(remarkParse)
+        .use(remarkHtml)
+        .processSync(innerMarkdown || "")
+        .toString()
+        .trim();
+
+      const replacement = `<div class="admonition admonition-${typeLower}">${innerHtml}</div>`;
       source = `${before}${replacement}${after}`;
       changed = true;
     }

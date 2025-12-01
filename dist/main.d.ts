@@ -8,9 +8,9 @@ import type { Plugin } from "unified";
  * where <type> is one of:
  * note, info, tip, success, question, failure, danger, bug, example, quote, warning
  *
- * and replaces them in the original markdown source with:
+ * and replaces them in the original markdown source with HTML:
  *
- * <div class="admonition admonition-<type>">{Content}</div>
+ * <div class="admonition admonition-<type>">…rendered HTML…</div>
  *
  * Then it reparses the modified markdown back into an mdast tree.
  */

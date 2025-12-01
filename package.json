@@ -39,13 +39,14 @@
   },
   "dependencies": {
     "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
     "remark-parse": "^11.0.0",
     "unified": "^11.0.5"
   },
   "devDependencies": {
-    "typescript": "~5.9.3",
-    "vitest": "^4.0.14",
+    "css-select": "^6.0.0",
     "htmlparser2": "^10.0.0",
-    "css-select": "^6.0.0"
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.14"
   }
 }
