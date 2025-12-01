@@ -39,11 +39,9 @@ The plugin transforms it into:
 ### Installation
 
 ```bash
-npm install remark-mkdocs-admonitions
-# or
 yarn add remark-mkdocs-admonitions
 # or
-pnpm add remark-mkdocs-admonitions
+npm install remark-mkdocs-admonitions
 ```
 
 ### Usage with `remark`

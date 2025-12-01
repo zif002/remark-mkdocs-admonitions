@@ -1,25 +1,7 @@
 {
   "name": "remark-mkdocs-admonitions",
   "version": "0.1.0",
-  "type": "module",
-  "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "test": "vitest"
-  },
-  "main": "./dist/main.js",
-  "types": "./dist/main.d.ts",
-  "exports": {
-    ".": "./dist/main.js",
-    "./admonition.css": "./admonition.css"
-  },
-  "files": [
-    "dist",
-    "admonition.css"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/your-username/remark-mkdocs-admonitions.git"
-  },
+  "description": "**Remark plugin** that converts MkDocs-style `!!!` blocks into HTML admonitions, styled similarly ",
   "keywords": [
     "remark",
     "remark-plugin",
@@ -27,17 +9,43 @@
     "mkdocs",
     "admonition"
   ],
-  "author": "",
+  "homepage": "https://github.com/zif002/remark-mkdocs-admonitions/blob/main/README.md",
+  "bugs": {
+    "url": "https://github.com/zif002/remark-mkdocs-admonitions/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zif002/remark-mkdocs-admonitions.git"
+  },
   "license": "MIT",
-  "devDependencies": {
-    "typescript": "~5.9.3",
-    "vitest": "^4.0.14",
-    "htmlparser2": "^10.0.0",
-    "css-select": "^6.0.0"
+  "author": "https://github.com/zif002",
+  "type": "module",
+  "exports": {
+    ".": "./dist/main.js",
+    "./admonition.css": "./admonition.css"
+  },
+  "main": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "directories": {
+    "test": "test"
+  },
+  "files": [
+    "dist",
+    "admonition.css"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest"
   },
   "dependencies": {
     "remark": "^15.0.1",
     "remark-parse": "^11.0.0",
     "unified": "^11.0.5"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.14",
+    "htmlparser2": "^10.0.0",
+    "css-select": "^6.0.0"
   }
 }
