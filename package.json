@@ -1,0 +1,43 @@
+{
+  "name": "remark-mkdocs-admonitions",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest"
+  },
+  "main": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": "./dist/main.js",
+    "./admonition.css": "./admonition.css"
+  },
+  "files": [
+    "dist",
+    "admonition.css"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/remark-mkdocs-admonitions.git"
+  },
+  "keywords": [
+    "remark",
+    "remark-plugin",
+    "markdown",
+    "mkdocs",
+    "admonition"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.14",
+    "htmlparser2": "^10.0.0",
+    "css-select": "^6.0.0"
+  },
+  "dependencies": {
+    "remark": "^15.0.1",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5"
+  }
+}
