@@ -35,7 +35,11 @@ export const remarkMkDocsAdmonitions = () => {
             "warning",
         ];
         const typePattern = types.join("|");
-        const pattern = new RegExp(String.raw `!!![ \t]+(${typePattern})[^\n]*\n((?:[ \t]{4}.*\n*\t?)*)`, "i");
+        // const pattern = new RegExp(
+        //   String.raw`!!![ \t]+(${typePattern})[^\n]*\n((?:[ \t]{4}.*\n*\t?)*)`,
+        //   "i",
+        // );
+        const pattern = new RegExp(String.raw `!!![ \t]+(${typePattern})(.+?)\n([^\n]*[\s\S]*?(?=\n(?!\s)|$))`, "i");
         let changed = false;
         // Support multiple admonitions per file by looping until no more matches.
         while (true) {
@@ -47,12 +51,17 @@ export const remarkMkDocsAdmonitions = () => {
             const after = source.slice(match.index + fullMatch.length);
             const matchedType = match[1] ?? "";
             const typeLower = matchedType.toLowerCase();
-            const innerIndented = match[2] ?? "";
+            const innerTitle = match[2] ?? "";
+            const innerIndented = match[3] ?? "";
             const innerMarkdown = innerIndented
                 .split("\n")
                 .map((line) => line.replace(/^[ \t]{4}/, ""))
                 .join("\n")
                 .trimEnd();
+            const title = innerTitle.split("\n")
+                .map((line) => line.replace(/^[ \t]{4}/, ""))
+                .join("\n")
+                .trim();
             // Render inner markdown to HTML so that code, links, etc. are preserved.
             const innerHtml = unified()
                 .use(remarkParse)
@@ -60,7 +69,10 @@ export const remarkMkDocsAdmonitions = () => {
                 .processSync(innerMarkdown || "")
                 .toString()
                 .trim();
-            const replacement = `<div class="admonition admonition-${typeLower}">${innerHtml}</div>`;
+            const replacement = `<div class="admonition admonition-${typeLower}">
+        ${title.length && `<p class="admonition-title">${title}</p>`}
+        ${innerHtml}
+      </div>`;
             source = `${before}${replacement}${after}`;
             changed = true;
         }

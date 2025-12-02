@@ -52,6 +52,8 @@ describe("MkDocs-style !!! admonitions - concrete example", () => {
       const div = selectOne("div.admonition.admonition-warning", doc);
       const divDom = cheerio.load(div).html();
       expect(divDom, "div.admonition.admonition-warning should be present").not.toBeNull();
+      const title = selectOne("p.admonition-title", div);
+      expect(title).not.toBeNull();
       expect(divDom).not.toContain("!!! warning");
       expect(divDom).toContain("When scanning by IP address");
       expect(divDom).toContain("So if you query <code>host:example.com</code>");
@@ -102,6 +104,8 @@ describe("MkDocs-style !!! admonitions - per type", () => {
         const selector = `div.admonition.admonition-warning`;
         const div = selectOne(selector, doc);
         const divDom = cheerio.load(div).html();
+        const title = selectOne("p.admonition-title", div);
+        expect(title).not.toBeNull();
         expect(divDom, `${selector} should be present`).not.toBeNull();
         expect(divDom).not.toContain(`!!! warning`);
         expect(divDom).toContain(`So if you query`);
@@ -155,6 +159,8 @@ sad`,
         const divDom = cheerio.load(div).html();
         expect(divDom, `${selector} should be present`).not.toBeNull();
         expect(divDom).not.toContain(`!!! warning`);
+        const title = selectOne("p.admonition-title", div);
+        expect(title).not.toBeNull();
         expect(divDom).toContain(`Sorry for the inconvenience.`);
         expect(divDom).toContain(`Modbus Parser Notice`);
       },
