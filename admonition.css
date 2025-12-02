@@ -19,20 +19,18 @@
   
 }
 .admonition-title {
-  padding-left: 2rem;
-  padding-right: .6rem;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  padding-left: 40px;
+  padding-right: 0;
   position: relative;
 
 }
 .admonition-title::before {
     content: "";
-    height: 1rem;
+    height: 30px;
     mask-size: contain;
     position: absolute;
     top: .625em;
-    width: 1rem;
+    width: 30px;
 }
 .admonition p:last-child {
   margin-bottom: 0;
@@ -44,7 +42,7 @@
 }
 
 .admonition-note .admonition-title:before{
-    background-color: rgba(68, 138, 255, 0.1);
+    background-color: rgb(68, 137, 255);
     mask-image: var(--md-admonition-icon--note);
 }
 
@@ -53,7 +51,7 @@
   background-color: rgba(0, 176, 255, 0.1);
 }
 .admonition-info .admonition-title:before{
-    background-color: rgba(0, 176, 255, 0.1);
+    background-color: rgb(0, 174, 255);
     mask-image: var(--md-admonition-icon--info);
 }
 .admonition-tip,
@@ -64,11 +62,11 @@
 
 .admonition-tip .admonition-title:before
 {
-    background-color: rgba(0, 200, 83, 0.1);
+    background-color: rgb(0, 200, 83);
     mask-image: var(--md-admonition-icon--tip);
 }
 .admonition-success .admonition-title:before{
-  background-color: rgba(0, 200, 83, 0.1);
+  background-color: rgb(0, 200, 83);
   mask-image: var(--md-admonition-icon--success);
 }
 .admonition-question {
@@ -76,7 +74,7 @@
   background-color: rgba(101, 31, 255, 0.08);
 }
 .admonition-question .admonition-title:before{
-  background-color: rgba(101, 31, 255, 0.08);
+  background-color: rgb(102, 31, 255);
   mask-image: var(--md-admonition-icon--question);
 }
 .admonition-warning {
@@ -84,7 +82,7 @@
   background-color: rgba(255, 145, 0, 0.1);
 }
 .admonition-warning .admonition-title:before{
-  background-color: rgba(255, 145, 0, 0.1);
+  background-color: rgb(255, 145, 0);
   mask-image: var(--md-admonition-icon--warning);
 }
 .admonition-failure,
@@ -94,17 +92,17 @@
   background-color: rgba(255, 23, 68, 0.08);
 }
 .admonition-failure .admonition-title:before{
-  background-color: rgba(255, 145, 0, 0.1);
+  background-color: rgb(255, 145, 0);
   mask-image: var(--md-admonition-icon--failure);
 }
 
 .admonition-danger .admonition-title:before{
-  background-color: rgba(255, 145, 0, 0.1);
+  background-color: rgb(255, 145, 0);
   mask-image: var(--md-admonition-icon--danger);
 }
 
 .admonition-bug .admonition-title:before{
-  background-color: rgba(255, 145, 0, 0.1);
+  background-color: rgb(255, 145, 0);
   mask-image: var(--md-admonition-icon--bug);
 }
 .admonition-example {
@@ -113,7 +111,7 @@
 }
 
 .admonition-example .admonition-title:before{
-  background-color: rgba(0, 191, 165, 0.08);
+  background-color: rgb(0, 191, 166);
   mask-image: var(--md-admonition-icon--example);
 }
 
@@ -124,7 +122,7 @@
 
 
 .admonition-quote .admonition-title:before{
-  background-color: rgba(158, 158, 158, 0.08);;
+  background-color: rgb(158, 158, 158);;
   mask-image: var(--md-admonition-icon--quote);
 }
 
