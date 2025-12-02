@@ -39,11 +39,14 @@ export const remarkMkDocsAdmonitions: Plugin = () => {
     ];
 
     const typePattern = types.join("|");
+    // const pattern = new RegExp(
+    //   String.raw`!!![ \t]+(${typePattern})[^\n]*\n((?:[ \t]{4}.*\n*\t?)*)`,
+    //   "i",
+    // );
     const pattern = new RegExp(
-      String.raw`!!![ \t]+(${typePattern})[^\n]*\n((?:[ \t]{4}.*\n*\t?)*)`,
+      String.raw`!!![ \t]+(${typePattern})(.+?)\n([^\n]*[\s\S]*?(?=\n(?!\s)|$))`,
       "i",
     );
-
     let changed = false;
 
     // Support multiple admonitions per file by looping until no more matches.
@@ -57,9 +60,9 @@ export const remarkMkDocsAdmonitions: Plugin = () => {
 
       const matchedType = match[1] ?? "";
       const typeLower = matchedType.toLowerCase();
-
-      const innerIndented = match[2] ?? "";
-      const innerMarkdown = innerIndented
+      const title = match[2] ?? "";
+      const innerIndented = match[3] ?? "";
+      const innerMarkdown = title + innerIndented
         .split("\n")
         .map((line) => line.replace(/^[ \t]{4}/, ""))
         .join("\n")

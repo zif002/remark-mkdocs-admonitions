@@ -109,4 +109,57 @@ describe("MkDocs-style !!! admonitions - per type", () => {
     });
 });
 
+describe("MkDocs-style !!! admonitions - check other example", () => {
+  // const types = [
+  //   "note",
+  //   "info",
+  //   "tip",
+  //   "success",
+  //   "question",
+  //   "failure",
+  //   "danger",
+  //   "bug",
+  //   "example",
+  //   "quote",
+  //   "warning",
+  // ] as const;
+
+   defineCase(`transforms !!! warning into div.admonition.admonition-warning`, {
+      input: `[Modbus](https://en.wikipedia.org/wiki/Modbus) industrial protocol widely used in SCADA and automation systems.
+
+This group of fields includes metadata extracted from Modbus TCP services.
+
+!!! warning "Modbus Parser Notice"
+
+    Some Modbus fields may be parsed incorrectly due to known issues. 
+    We're aware of them and will release fixes in future versions.
+    Sorry for the inconvenience.
+
+
+
+
+
+
+
+
+
+dsadsadasd
+ad
+asd
+asd
+sad`,
+      assertions(html) {
+        const doc = parseDocument(html);
+        const selector = `div.admonition.admonition-warning`;
+        const div = selectOne(selector, doc);
+        const divDom = cheerio.load(div).html();
+        expect(divDom, `${selector} should be present`).not.toBeNull();
+        expect(divDom).not.toContain(`!!! warning`);
+        expect(divDom).toContain(`Sorry for the inconvenience.`);
+        expect(divDom).toContain(`Modbus Parser Notice`);
+      },
+    });
+});
+
+
 
