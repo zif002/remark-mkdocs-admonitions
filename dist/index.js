@@ -33,6 +33,7 @@ export const remarkMkDocsAdmonitions = () => {
             "example",
             "quote",
             "warning",
+            "abstract"
         ];
         const typePattern = types.join("|");
         // const pattern = new RegExp(
