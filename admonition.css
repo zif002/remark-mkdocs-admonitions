@@ -31,6 +31,7 @@
     position: absolute;
     top: .625em;
     width: 30px;
+    left: 0;
 }
 .admonition p:last-child {
   margin-bottom: 0;
