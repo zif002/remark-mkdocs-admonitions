@@ -70,7 +70,7 @@ export const remarkMkDocsAdmonitions = () => {
                 .toString()
                 .trim();
             const replacement = `<div class="admonition admonition-${typeLower}">
-        ${title.length && `<p class="admonition-title">${title}</p>`}
+        ${title.length && `<div class="admonition-title">${title}</div>`}
         ${innerHtml}
       </div>`;
             source = `${before}${replacement}${after}`;
