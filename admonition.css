@@ -121,6 +121,16 @@
   background-color: rgba(158, 158, 158, 0.08);
 }
 
+.admonition-abstract {
+  border-left-color: #00b0ff;
+  background-color: #00b0ff1a;
+}
+
+.admonition-quote .admonition-title:before{
+  background-color: #00b0ff;
+  mask-image: var(--md-admonition-icon--abstract);
+}
+
 
 .admonition-quote .admonition-title:before{
   background-color: rgb(158, 158, 158);;

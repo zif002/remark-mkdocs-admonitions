@@ -36,6 +36,7 @@ export const remarkMkDocsAdmonitions: Plugin = () => {
       "example",
       "quote",
       "warning",
+      "abstract"
     ];
 
     const typePattern = types.join("|");
