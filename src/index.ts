@@ -60,14 +60,17 @@ export const remarkMkDocsAdmonitions: Plugin = () => {
 
       const matchedType = match[1] ?? "";
       const typeLower = matchedType.toLowerCase();
-      const title = match[2] ?? "";
+      const innerTitle = match[2] ?? "";
       const innerIndented = match[3] ?? "";
-      const innerMarkdown = title + innerIndented
+      const innerMarkdown = innerIndented
         .split("\n")
         .map((line) => line.replace(/^[ \t]{4}/, ""))
         .join("\n")
         .trimEnd();
-
+      const title = innerTitle.split("\n")
+        .map((line) => line.replace(/^[ \t]{4}/, ""))
+        .join("\n")
+        .trimEnd();;
       // Render inner markdown to HTML so that code, links, etc. are preserved.
       const innerHtml = unified()
         .use(remarkParse)
@@ -76,7 +79,10 @@ export const remarkMkDocsAdmonitions: Plugin = () => {
         .toString()
         .trim();
 
-      const replacement = `<div class="admonition admonition-${typeLower}">${innerHtml}</div>`;
+      const replacement = `<div class="admonition admonition-${typeLower}">
+        <p class="admonition-title">${title}</p>
+        ${innerHtml}
+      </div>`;
       source = `${before}${replacement}${after}`;
       changed = true;
     }
