@@ -72,6 +72,11 @@ export const remarkMkDocsAdmonitions: Plugin = () => {
         .map((line) => line.replace(/^[ \t]{4}/, ""))
         .join("\n")
         .trim();
+      const renderTitle = unified().use(remarkParse)
+        .use(remarkHtml)
+        .processSync(title)
+        .toString()
+        .trim();
       // Render inner markdown to HTML so that code, links, etc. are preserved.
       const innerHtml = unified()
         .use(remarkParse)
@@ -81,7 +86,7 @@ export const remarkMkDocsAdmonitions: Plugin = () => {
         .trim();
 
       const replacement = `<div class="admonition admonition-${typeLower}">
-        ${title.length && `<div class="admonition-title">${title}</div>`}
+        ${renderTitle.length && `<div class="admonition-title">${renderTitle}</div>`}
         ${innerHtml}
       </div>`;
       source = `${before}${replacement}${after}`;
