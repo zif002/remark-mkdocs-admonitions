@@ -40,7 +40,7 @@ export const remarkMkDocsAdmonitions: Plugin = () => {
 
     const typePattern = types.join("|");
     const pattern = new RegExp(
-      String.raw`!!![ \t]+(${typePattern})[^\n]*\n((?:[ \t]{4}.*\n?)*)`,
+      String.raw`!!![ \t]+(${typePattern})[^\n]*\n((?:[ \t]{4}.*\n*\t?)*)`,
       "i",
     );
 

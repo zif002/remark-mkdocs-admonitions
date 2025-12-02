@@ -20,7 +20,7 @@ Example Markdown:
 
 ```markdown
 !!! warning "Difference between IP and domain-based searches in the `host` field"
-    When scanning by IP address, Netlas scans [all available services](/knowledge-base/scanning-technology.md) on the target machine.
+    When scanning by IP address, [all available services](/knowledge-base/scanning-technology.md) on the target machine.
     In contrast, when scanning by domain name, only HTTP/HTTPS services on ports `80` and `443` are scanned.
 
     So if you query `host:example.com`, you will only get HTTP(S) responses.
@@ -31,7 +31,7 @@ The plugin transforms it into:
 
 ```html
 <div class="admonition admonition-warning">
-  When scanning by IP address, Netlas scans ...
+  When scanning by IP address, ...
   ...
 </div>
 ```

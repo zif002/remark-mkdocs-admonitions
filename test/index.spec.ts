@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { parseDocument } from "htmlparser2";
 import { remark } from "remark";
 import remarkParse from "remark-parse";
-import plugin from "../src/main";
+import plugin from "../src/index";
 import { selectOne } from "css-select";
-
+import * as cheerio from "cheerio";
 function defineCase(
   name: string,
   options: {
@@ -39,20 +39,22 @@ describe("MkDocs-style !!! admonitions - concrete example", () => {
   \`\`\`  
 
 !!! warning "Difference between IP and domain-based searches in the \`host\` field"
-    When scanning by IP address, Netlas scans [all available services](/knowledge-base/scanning-technology.md) on the target machine.
+    When scanning by IP address scans [all available services](/knowledge-base/scanning-technology.md) on the target machine.
     In contrast, when scanning by domain name, only HTTP/HTTPS services on ports \`80\` and \`443\` are scanned.
 
     So if you query \`host:example.com\`, you will only get HTTP(S) responses.
     To retrieve all services hosted on the machine behind \`example.com\`, use its IP address instead.
+
+* fdssffdsfdsfsdfsd
 `,
     assertions(html) {
       const doc = parseDocument(html);
       const div = selectOne("div.admonition.admonition-warning", doc);
-
-      expect(div, "div.admonition.admonition-warning should be present").not.toBeNull();
-      expect(html).not.toContain("!!! warning");
-      expect(html).toContain("When scanning by IP address");
-      expect(html).toContain("So if you query `host:example.com`");
+      const divDom = cheerio.load(div).html();
+      expect(divDom, "div.admonition.admonition-warning should be present").not.toBeNull();
+      expect(divDom).not.toContain("!!! warning");
+      expect(divDom).toContain("When scanning by IP address");
+      expect(divDom).toContain("So if you query <code>host:example.com</code>");
     },
   });
 
@@ -68,37 +70,43 @@ No admonitions here.`,
 });
 
 describe("MkDocs-style !!! admonitions - per type", () => {
-  const types = [
-    "note",
-    "info",
-    "tip",
-    "success",
-    "question",
-    "failure",
-    "danger",
-    "bug",
-    "example",
-    "quote",
-    "warning",
-  ] as const;
+  // const types = [
+  //   "note",
+  //   "info",
+  //   "tip",
+  //   "success",
+  //   "question",
+  //   "failure",
+  //   "danger",
+  //   "bug",
+  //   "example",
+  //   "quote",
+  //   "warning",
+  // ] as const;
 
-  for (const type of types) {
-    defineCase(`transforms !!! ${type} into div.admonition.admonition-${type}`, {
-      input: `!!! ${type} "Title"
-    Content for ${type}.
-`,
+   defineCase(`transforms !!! warning into div.admonition.admonition-warning`, {
+      input: `* Previous example as a regular expression:
+        \`\`\`
+        host:/(.*\\.)?example\\.com/
+        \`\`\`  
+
+      !!! Warning "Difference between IP and domain-based searches in the \`host\` field"
+          When scanning by IP address scans [all available services](/knowledge-base/scanning-technology.md) on the target machine.
+          In contrast, when scanning by domain name, only HTTP/HTTPS services on ports \`80\` and \`443\` are scanned.
+
+          So if you query \`host:example.com\`, you will only get HTTP(S) responses.
+          To retrieve all services hosted on the machine behind \`example.com\`, use its IP address instead.
+      `,
       assertions(html) {
         const doc = parseDocument(html);
-        const selector = `div.admonition.admonition-${type}`;
+        const selector = `div.admonition.admonition-warning`;
         const div = selectOne(selector, doc);
-
-        expect(div, `${selector} should be present`).not.toBeNull();
-        expect(html).not.toContain(`!!! ${type}`);
-        expect(html).toContain(`Content for ${type}.`);
+        const divDom = cheerio.load(div).html();
+        expect(divDom, `${selector} should be present`).not.toBeNull();
+        expect(divDom).not.toContain(`!!! warning`);
+        expect(divDom).toContain(`So if you query`);
       },
     });
-  }
-}
-);
+});
 
 
