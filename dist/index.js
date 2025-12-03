@@ -71,10 +71,7 @@ export const remarkMkDocsAdmonitions = () => {
             .processSync(titleMarkDown)
             .toString()
             .trim();
-        const replacement = `<div class="admonition admonition-${typeMatch.toLocaleLowerCase()}">
-        ${titleMatch.length && `<div class="admonition-title">${titleHtml}</div>`}
-        ${bodyHtml}
-      </div>`;
+        const replacement = `<div class="admonition admonition-${typeMatch.toLocaleLowerCase()}">${titleMatch.length && `<div class="admonition-title">${titleHtml}</div>`}${bodyHtml}</div>`;
         source = `${before}${replacement}${after}`;
         const nextTree = unified().use(remarkParse).parse(source);
         for (const key of Object.keys(tree)) {

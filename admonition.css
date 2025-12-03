@@ -24,14 +24,17 @@
   position: relative;
   align-items: center;
   min-height: 30px;
+  gap:8px;
 
 }
 .admonition-title::before {
     content: "";
-    height: 30px;
+    height: 2rem;
     mask-size: contain;
     display: block;
-    width: 30px;
+    width: 2rem;
+    mask-repeat: no-repeat;
+    mask-position: center;
     
 }
 .admonition p:last-child {
