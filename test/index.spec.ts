@@ -52,7 +52,7 @@ describe("MkDocs-style !!! admonitions - concrete example", () => {
       const div = selectOne("div.admonition.admonition-warning", doc);
       const divDom = cheerio.load(div).html();
       expect(divDom, "div.admonition.admonition-warning should be present").not.toBeNull();
-      const title = selectOne("p.admonition-title", div);
+      const title = selectOne("div.admonition-title", div);
       expect(title).not.toBeNull();
       expect(divDom).not.toContain("!!! warning");
       expect(divDom).toContain("When scanning by IP address");
@@ -92,19 +92,19 @@ describe("MkDocs-style !!! admonitions - per type", () => {
         host:/(.*\\.)?example\\.com/
         \`\`\`  
 
-      !!! Warning "Difference between IP and domain-based searches in the \`host\` field"
-          When scanning by IP address scans [all available services](/knowledge-base/scanning-technology.md) on the target machine.
-          In contrast, when scanning by domain name, only HTTP/HTTPS services on ports \`80\` and \`443\` are scanned.
+!!! Warning "Difference between IP and domain-based searches in the \`host\` field"
+    When scanning by IP address scans [all available services](/knowledge-base/scanning-technology.md) on the target machine.
+    In contrast, when scanning by domain name, only HTTP/HTTPS services on ports \`80\` and \`443\` are scanned.
 
-          So if you query \`host:example.com\`, you will only get HTTP(S) responses.
-          To retrieve all services hosted on the machine behind \`example.com\`, use its IP address instead.
+    So if you query \`host:example.com\`, you will only get HTTP(S) responses.
+    To retrieve all services hosted on the machine behind \`example.com\`, use its IP address instead.
       `,
       assertions(html) {
         const doc = parseDocument(html);
         const selector = `div.admonition.admonition-warning`;
         const div = selectOne(selector, doc);
         const divDom = cheerio.load(div).html();
-        const title = selectOne("p.admonition-title", div);
+        const title = selectOne("div.admonition-title", div);
         expect(title).not.toBeNull();
         expect(divDom, `${selector} should be present`).not.toBeNull();
         expect(divDom).not.toContain(`!!! warning`);
@@ -159,7 +159,7 @@ sad`,
         const divDom = cheerio.load(div).html();
         expect(divDom, `${selector} should be present`).not.toBeNull();
         expect(divDom).not.toContain(`!!! warning`);
-        const title = selectOne("p.admonition-title", div);
+        const title = selectOne("div.admonition-title", div);
         expect(title).not.toBeNull();
         expect(divDom).toContain(`Sorry for the inconvenience.`);
         expect(divDom).toContain(`Modbus Parser Notice`);
@@ -167,5 +167,37 @@ sad`,
     });
 });
 
+describe("MkDocs- !!! admonitions - check example if no title in block", () => {
+  // const types = [
+  //   "note",
+  //   "info",
+  //   "tip",
+  //   "success",
+  //   "question",
+  //   "failure",
+  //   "danger",
+  //   "bug",
+  //   "example",
+  //   "quote",
+  //   "warning",
+  // ] as const;
+
+  defineCase(`transforms !!! info into div.admonition.admonition-info`, {
+      input: `Common Vulnerabilities and Exposures (CVE) fields. 
+
+!!! info "Read more about vulnerability detection technology in the [dedicated article &rarr;](/knowledge-base/software-and-vulnerabilities.md)"`,
+      assertions(html) {
+        const doc = parseDocument(html);
+        const selector = `div.admonition.admonition-info`;
+        const div = selectOne(selector, doc);
+        const divDom = cheerio.load(div).html();
+        expect(divDom, `${selector} should be present`).not.toBeNull();
+        expect(divDom).not.toContain(`!!! info`);
+        const title = selectOne("div.admonition-title", div);
+        expect(title).not.toBeNull();
+        expect(divDom).toContain(`Read more about vulnerability `);
+      },
+    });
+});
 
 

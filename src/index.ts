@@ -45,61 +45,48 @@ export const remarkMkDocsAdmonitions: Plugin = () => {
     //   "i",
     // );
     const pattern = new RegExp(
-      String.raw`!!![ \t]+(${typePattern})(.+?)\n([^\n]*[\s\S]*?(?=\n(?!\s)|$))`,
-      "i",
+      String.raw`^!!! (?<type>${typePattern}+) "(?<title>[^"]*)"(?:\r?\n(?<body>(?:(?:(?: {4,}|\t).*|[ \t]*)\r?\n)+))?`,
+      "igm",
     );
-    let changed = false;
 
-    // Support multiple admonitions per file by looping until no more matches.
-    while (true) {
-      const match = pattern.exec(source);
-      if (!match || match.index === undefined) break;
+    const match = pattern.exec(source);
+    if(!match?.groups) return;
+    if (!match || match.index === undefined) return;
+    const titleMatch = match.groups.title || "";
+    const bodyMatch = match.groups.body || "";
+    const typeMatch = match.groups.type;
+    const before = source.slice(0, match.index);
+    const after = source.slice(match.index +  match[0].length);
 
-      const before = source.slice(0, match.index);
-      const fullMatch = match[0];
-      const after = source.slice(match.index + fullMatch.length);
-
-      const matchedType = match[1] ?? "";
-      const typeLower = matchedType.toLowerCase();
-      const innerTitle = match[2] ?? "";
-      const innerIndented = match[3] ?? "";
-      const innerMarkdown = innerIndented
+    const bodyMarkdown = bodyMatch
         .split("\n")
         .map((line) => line.replace(/^[ \t]{4}/, ""))
         .join("\n")
         .trimEnd();
-      const title = innerTitle.split("\n")
+    const bodyHtml = unified()
+        .use(remarkParse)
+        .use(remarkHtml)
+        .processSync(bodyMarkdown)
+        .toString()
+        .trim();
+
+    const titleMarkDown = titleMatch.split("\n")
         .map((line) => line.replace(/^[ \t]{4}/, ""))
         .join("\n")
         .trim();
-      const renderTitle = unified().use(remarkParse)
+    const titleHtml = unified().use(remarkParse)
         .use(remarkHtml)
-        .processSync(title)
+        .processSync(titleMarkDown)
         .toString()
         .trim();
-      // Render inner markdown to HTML so that code, links, etc. are preserved.
-      const innerHtml = unified()
-        .use(remarkParse)
-        .use(remarkHtml)
-        .processSync(innerMarkdown || "")
-        .toString()
-        .trim();
-
-      const replacement = `<div class="admonition admonition-${typeLower}">
-        ${renderTitle.length && `<div class="admonition-title">${renderTitle}</div>`}
-        ${innerHtml}
+    const replacement = `<div class="admonition admonition-${typeMatch.toLocaleLowerCase()}">
+        ${titleMatch.length && `<div class="admonition-title">${titleHtml}</div>`}
+        ${bodyHtml}
       </div>`;
-      source = `${before}${replacement}${after}`;
-      changed = true;
-    }
-
-    if (!changed) return;
+    source = `${before}${replacement}${after}`;
 
     const nextTree = unified().use(remarkParse).parse(source);
-
-    // Mutate the existing tree in-place so downstream plugins see the updated AST.
-    for (const key of Object.keys(tree as any)) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    for (const key of Object.keys(tree as any)) {  
       delete (tree as any)[key];
     }
     Object.assign(tree as any, nextTree);
