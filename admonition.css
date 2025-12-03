@@ -19,19 +19,20 @@
   
 }
 .admonition-title {
-  padding-left: 40px;
+  display: flex;
   padding-right: 0;
   position: relative;
+  align-items: center;
+  min-height: 30px;
 
 }
 .admonition-title::before {
     content: "";
     height: 30px;
     mask-size: contain;
-    position: absolute;
-    top: .625em;
+    display: block;
     width: 30px;
-    left: 0;
+    
 }
 .admonition p:last-child {
   margin-bottom: 0;
@@ -126,7 +127,7 @@
   background-color: #00b0ff1a;
 }
 
-.admonition-quote .admonition-title:before{
+.admonition-abstract .admonition-title:before{
   background-color: #00b0ff;
   mask-image: var(--md-admonition-icon--abstract);
 }
