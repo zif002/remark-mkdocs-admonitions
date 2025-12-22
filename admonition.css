@@ -41,6 +41,10 @@
   margin-bottom: 0;
 }
 
+.admonition p {
+  font-size: .75rem;
+}
+
 .admonition-note {
   border-left-color: #448aff;
   background-color: rgba(68, 138, 255, 0.1);
