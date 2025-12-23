@@ -55,6 +55,7 @@
   border-top-right-radius: 4px;
   margin: 0 -12px;
   margin-bottom: 8px;
+  padding: 0 12px;
 }
 .admonition-title p {
   font-weight: bold;
