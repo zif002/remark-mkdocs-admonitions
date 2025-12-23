@@ -59,6 +59,7 @@
 }
 .admonition-title p {
   font-weight: bold;
+  margin-top:0;
 }
 .admonition-title::before {
     content: "";
@@ -76,6 +77,7 @@
 
 .admonition p {
   font-size: .75rem;
+  margin-top: 8px;
 }
 
 .admonition-note {
