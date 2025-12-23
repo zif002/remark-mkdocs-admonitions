@@ -58,6 +58,8 @@
 }
 .admonition-title p {
   font-weight: bold;
+}
+.admonition .admonition-title p {
   margin-top:0;
 }
 .admonition-title::before {
