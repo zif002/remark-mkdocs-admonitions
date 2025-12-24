@@ -1,6 +1,6 @@
 {
   "name": "remark-mkdocs-admonitions",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "**Remark plugin** that converts MkDocs-style `!!!` blocks into HTML admonitions, styled similarly ",
   "keywords": [
     "remark",
